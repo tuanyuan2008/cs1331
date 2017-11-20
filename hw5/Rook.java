@@ -2,39 +2,39 @@
  * Represents a rook.
  *
  * @author schen475
- * @version 1
+ * @version 1.1
  */
 public class Rook extends Piece {
 
-/**
- * Creates a rook with specified color.
- *
- * @param pieceColor the color of the rook
- *
- */
+    /**
+     * Creates a rook with specified color.
+     *
+     * @param pieceColor the color of the rook
+     *
+     */
     public Rook(Color pieceColor) {
         super(pieceColor);
     }
 
-/**
- * @return this rook's color
- */
+    /**
+     * @return this rook's color
+     */
     @Override
     public Color getColor() {
         return super.getColor();
     }
 
-/**
- * @return the algebraic name "R"
- */
+    /**
+     * @return the algebraic name "R"
+     */
     public String algebraicName() {
         return "R";
     }
 
-/**
- * @return the Fen name depending on
- * pieceColor
- */
+    /**
+     * @return the Fen name depending on
+     * pieceColor
+     */
     public String fenName() {
         if (this.getColor() == Color.WHITE) {
             return "R";
@@ -43,12 +43,12 @@ public class Rook extends Piece {
         }
     }
 
-/**
- *@return an array of possible locations
- * the rook can move to from its current
- * point.
- * @param square location of rook
- */
+    /**
+     *@return an array of possible locations
+    * the rook can move to from its current
+    * point.
+    * @param square location of rook
+    */
     public Square[] movesFrom(Square square) {
         int count = -1;
         Square[] initSquares = new Square[14];

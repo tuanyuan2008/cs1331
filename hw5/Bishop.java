@@ -2,39 +2,39 @@
  * Represents a bishop.
  *
  * @author schen475
- * @version 1
+ * @version 1.1
  */
 public class Bishop extends Piece {
 
-/**
- * Creates a bishop with specified color.
- *
- * @param pieceColor the color of the bishop
- *
- */
+    /**
+     * Creates a bishop with specified color.
+     *
+     * @param pieceColor the color of the bishop
+     *
+     */
     public Bishop(Color pieceColor) {
         super(pieceColor);
     }
 
-/**
- * @return this bishop's color
- */
+    /**
+     * @return this bishop's color
+     */
     @Override
     public Color getColor() {
         return super.getColor();
     }
 
-/**
- * @return the algebraic name "B"
- */
+    /**
+     * @return the algebraic name "B"
+     */
     public String algebraicName() {
         return "B";
     }
 
-/**
- * @return the Fen name depending on
- * pieceColor
- */
+    /**
+     * @return the Fen name depending on
+     * pieceColor
+     */
     public String fenName() {
         if (this.getColor() == Color.WHITE) {
             return "B";
@@ -43,12 +43,12 @@ public class Bishop extends Piece {
         }
     }
 
-/**
- * @return an array of possible locations
- * the bishop can move to from its current
- * point.
- * @param square location of bishop
- */
+    /**
+     * @return an array of possible locations
+     * the bishop can move to from its current
+     * point.
+     * @param square location of bishop
+     */
     public Square[] movesFrom(Square square) {
         int count = 0;
         for (char column = square.getFile(), row = square.getRank();

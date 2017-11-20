@@ -10,13 +10,13 @@ public class Square {
     private char rank;
     private String name;
 
-/**
- * Creates a square with file and rank as parameters.
- *
- * @param file the file of the square
- * @param rank the rank of the square
- *
- */
+    /**
+     * Creates a square with file and rank as parameters.
+     *
+     * @param file the file of the square
+     * @param rank the rank of the square
+     *
+     */
     public Square(char file, char rank) {
         if ('a' <= file && file <= 'h') {
             this.file = file;
@@ -31,12 +31,12 @@ public class Square {
         this.name = "" + file + rank;
     }
 
-/**
- * Creates a square with name in algebraic notation.
- *
- * @param name combined file and rank
- *
- */
+    /**
+     * Creates a square with name in algebraic notation.
+     *
+     * @param name combined file and rank
+     *
+     */
     public Square(String name) {
         if (name.length() == 2) {
             if ('a' <= name.charAt(0) && name.charAt(0) <= 'h') {
@@ -55,16 +55,16 @@ public class Square {
         }
     }
 
-/**
- * @return this piece's file
- */
+    /**
+     * @return this piece's file
+     */
     public char getFile() {
         return this.file;
     }
 
-/**
- * @return this piece's rank
- */
+    /**
+     * @return this piece's rank
+     */
     public char getRank() {
         return this.rank;
     }
@@ -77,14 +77,14 @@ public class Square {
         return this.name;
     }
 
-/**
- * @return true if this object is the same as the obj
- * argument; false otherwise
- *
- * @param obj the reference object with which to be
- * compared with
- *
- */
+    /**
+     * @return true if this object is the same as the obj
+     * argument; false otherwise
+     *
+     * @param obj the reference object with which to be
+     * compared with
+     *
+     */
     @Override
     public boolean equals(Object obj) {
         if (null == obj) {

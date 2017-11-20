@@ -11,39 +11,39 @@ public abstract class Piece {
 
     private Color pieceColor;
 
-/**
- * Creates a piece with specified color.
- *
- * @param pieceColor the color of the piece
- *
- */
+    /**
+     * Creates a piece with specified color.
+     *
+     * @param pieceColor the color of the piece
+     *
+     */
     public Piece(Color pieceColor) {
         this.pieceColor = pieceColor;
     }
 
-/**
- * @return this piece's color
- */
+    /**
+     * @return this piece's color
+     */
     public Color getColor() {
         return this.pieceColor;
     }
 
-/**
- * @return the algebraic name of the piece.
- */
+    /**
+     * @return the algebraic name of the piece.
+     */
     public abstract String algebraicName();
 
-/**
- * @return the Fen name of the piece.
- */
+    /**
+     * @return the Fen name of the piece.
+     */
     public abstract String fenName();
 
-/**
- * @return an array of possible locations the
- * piece can move to from its current
- * point.
- * @param square location of piece
- */
+    /**
+     * @return an array of possible locations the
+     * piece can move to from its current
+     * point.
+     * @param square location of piece
+     */
     public abstract Square[] movesFrom(Square square);
 
 }

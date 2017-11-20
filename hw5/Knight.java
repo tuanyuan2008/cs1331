@@ -2,39 +2,39 @@
  * Represents a knight.
  *
  * @author schen475
- * @version 1
+ * @version 1.1
  */
 public class Knight extends Piece {
 
-/**
- * Creates a knight with specified color.
- *
- * @param pieceColor the color of the knight
- *
- */
+    /**
+     * Creates a knight with specified color.
+     *
+     * @param pieceColor the color of the knight
+     *
+     */
     public Knight(Color pieceColor) {
         super(pieceColor);
     }
 
-/**
- * @return this knight's color
- */
+    /**
+     * @return this knight's color
+     */
     @Override
     public Color getColor() {
         return super.getColor();
     }
 
-/**
- * @return the algebraic name "N"
- */
+    /**
+     * @return the algebraic name "N"
+     */
     public String algebraicName() {
         return "N";
     }
 
-/**
- * @return the Fen name depending on
- * pieceColor
- */
+    /**
+     * @return the Fen name depending on
+     * pieceColor
+     */
     public String fenName() {
         if (this.getColor() == Color.WHITE) {
             return "N";
@@ -43,12 +43,12 @@ public class Knight extends Piece {
         }
     }
 
-/**
- *@return an array of possible locations
- * the knight can move to from its current
- * point.
- * @param square location of knight
- */
+    /**
+     *@return an array of possible locations
+    * the knight can move to from its current
+    * point.
+    * @param square location of knight
+    */
     public Square[] movesFrom(Square square) {
         int count = 0;
         if ((char) (square.getFile() + 1) <= 'h'

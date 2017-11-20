@@ -2,39 +2,39 @@
  * Represents a queen.
  *
  * @author schen475
- * @version 1
+ * @version 1.1
  */
 public class Queen extends Piece {
 
-/**
- * Creates a queen with specified color.
- *
- * @param pieceColor the color of the queen
- *
- */
+    /**
+     * Creates a queen with specified color.
+     *
+     * @param pieceColor the color of the queen
+     *
+     */
     public Queen(Color pieceColor) {
         super(pieceColor);
     }
 
-/**
- * @return this queen's color
- */
+    /**
+     * @return this queen's color
+     */
     @Override
     public Color getColor() {
         return super.getColor();
     }
 
-/**
- * @return the algebraic name "Q"
- */
+    /**
+     * @return the algebraic name "Q"
+     */
     public String algebraicName() {
         return "Q";
     }
 
-/**
- * @return the Fen name depending on
- * pieceColor
- */
+    /**
+     * @return the Fen name depending on
+     * pieceColor
+     */
     public String fenName() {
         if (this.getColor() == Color.WHITE) {
             return "Q";
@@ -43,12 +43,12 @@ public class Queen extends Piece {
         }
     }
 
-/**
- *@return an array of possible locations
- * the queen can move to from its current
- * point.
- * @param square location of queen
- */
+    /**
+     *@return an array of possible locations
+    * the queen can move to from its current
+    * point.
+    * @param square location of queen
+    */
     public Square[] movesFrom(Square square) {
         int count = 14;
         for (char column = square.getFile(), row = square.getRank();
