@@ -2,7 +2,7 @@
  * Represents a king.
  *
  * @author schen475
- * @version 1.2
+ * @version 2.0
  */
 public class King extends Piece {
 
@@ -50,47 +50,37 @@ public class King extends Piece {
      * @param square location of king
      */
     public Square[] movesFrom(Square square) {
-        int count = 0;
-
-        Square[] initSquaresAll = {
-            new Square((char) (square.getFile() - 1),
-                    square.getRank()),
-            new Square((char) (square.getFile() + 1),
-                    square.getRank()),
-            new Square(square.getFile(),
-                    (char) (square.getRank() - 1)),
-            new Square(square.getFile(),
-                    (char) (square.getRank() + 1)),
-            new Square((char) (square.getFile() - 1),
-                    (char) (square.getRank() - 1)),
-            new Square((char) (square.getFile() + 1),
-                    (char) (square.getRank() - 1)),
-            new Square((char) (square.getFile() - 1),
-                    (char) (square.getRank() + 1)),
-            new Square((char) (square.getFile() + 1),
-                    (char) (square.getRank() + 1))
-        };
-
-        for (Square squareAll : initSquaresAll) {
-            if (squareAll.getFile() >= 'a'
-                    && squareAll.getFile() <= 'h'
-                    && squareAll.getRank() >= '1'
-                    && squareAll.getRank() <= '8') {
-                count++;
+        Square[] sq = new Square[8];
+        int counter = 0;
+        char rank = square.getRank();
+        char file = square.getFile();
+        for (int r = -1; r <= 1; r++) {
+            for (int c = -1; c <= 1; c++) {
+                if (r == 0 && c == 0) {
+                    continue;
+                }
+                if (isInBoard((char) (file + c), (char) (rank + r))) {
+                    sq[counter++] = new Square((char) (file + c),
+                        (char) (rank + r));
+                }
             }
         }
 
-        Square[] initSquares = new Square[count];
-        int i = -1;
-        for (Square squareAll : initSquaresAll) {
-            if (squareAll.getFile() >= 'a'
-                    && squareAll.getFile() <= 'h'
-                    && squareAll.getRank() >= '1'
-                    && squareAll.getRank() <= '8') {
-                i++;
-                initSquares[i] = squareAll;
-            }
+        Square[] full = new Square[counter];
+        for (int i = 0; i < counter; i++) {
+            full[i] = sq[i];
         }
-        return initSquares;
+
+        return full;
+    }
+
+    /**
+    *@return whether or not a position is valid
+    *
+    * @param file file of king
+    * @param rank rank of king
+    */
+    public boolean isInBoard(char file, char rank) {
+        return file >= 'a' && file <= 'h' && rank >= '1' && rank <= '8';
     }
 }
