@@ -4,7 +4,7 @@ import java.util.Optional;
  * Represents one player's move (either black or white).
  *
  * @author schen475
- * @version 1.1
+ * @version 1.2
  */
 public class Ply {
     private Piece piece;
@@ -38,14 +38,14 @@ public class Ply {
     /**
      * @return this piece's starting square
      */
-    public Square getFromSquare() {
+    public Square getFrom() {
         return this.from;
     }
 
     /**
      * @return this piece's ending square
      */
-    public Square getToSquare() {
+    public Square getTo() {
         return this.to;
     }
 
