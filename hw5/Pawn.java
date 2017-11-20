@@ -2,7 +2,7 @@
  * Represents a pawn.
  *
  * @author schen475
- * @version 1.1
+ * @version 2.0
  */
 public class Pawn extends Piece {
 
@@ -50,42 +50,36 @@ public class Pawn extends Piece {
     * @param square location of pawn
     */
     public Square[] movesFrom(Square square) {
-        Square[] initSquaresAll = new Square[2];
-        int count;
-        if (this.getColor() == Color.WHITE) {
-            initSquaresAll[0] = new Square(square.getFile(),
-                    (char) (square.getRank() + 1));
-            initSquaresAll[1] = new Square(square.getFile(),
-                    (char) (square.getRank() + 2));
-            if (square.getRank() == '2') {
-                count = 2;
-            } else if (square.getRank() == '1'
-                    || square.getRank() == '8') {
-                count = 0;
+        char rank = square.getRank();
+        char file = square.getFile();
+        if (getColor() == Color.WHITE) {
+            if (rank == '8') {
+                return new Square[0];
+            } else if (rank == '2') {
+                return new Square[]{new Square(file, '4'),
+                    new Square(file, '3')};
             } else {
-                count = 1;
+                return new Square[]{new Square(file, (char) (rank + 1))};
             }
         } else {
-            initSquaresAll[0] = new Square(square.getFile(),
-                    (char) (square.getRank() - 1));
-            initSquaresAll[1] = new Square(square.getFile(),
-                    (char) (square.getRank() - 2));
-            if (square.getRank() == '7') {
-                count = 2;
-            } else if (square.getRank() == '1'
-                    || square.getRank() == '8') {
-                count = 0;
+            if (rank == '1') {
+                return new Square[0];
+            } else if (rank == '7') {
+                return new Square[]{new Square(file, '5'),
+                    new Square(file, '6')};
             } else {
-                count = 1;
+                return new Square[]{new Square(file, (char) (rank - 1))};
             }
         }
+    }
 
-        Square[] initSquares = new Square[count];
-
-        for (int i = 0; i < count; i++) {
-            initSquares[i] = initSquaresAll[i];
-        }
-
-        return initSquares;
+    /**
+    *@return whether or not a position is valid
+    *
+    * @param file file of pawn
+    * @param rank rank of pawn
+    */
+    public boolean isInBoard(char file, char rank) {
+        return file >= 'a' && file <= 'h' && rank >= '1' && rank <= '8';
     }
 }
