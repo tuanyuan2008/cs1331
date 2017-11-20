@@ -6,7 +6,7 @@ import java.util.function.Predicate;
  * Represents a complete chess game; a sequence of moves.
  *
  * @author schen475
- * @version 1.0
+ * @version 1.1
  */
 public class ChessGame {
     private List<Move> moves;
@@ -21,6 +21,12 @@ public class ChessGame {
         this.moves = moves;
     }
 
+    /**
+     * @return the game's moves
+     */
+    public List<Move> getMoves() {
+        return this.moves;
+    }
 
     /**
      * @param n the nth move
@@ -38,7 +44,7 @@ public class ChessGame {
      */
     public List<Move> filter(Predicate<Move> filter) {
         List<Move> valid = new ArrayList<>();
-        for (Move move : valid) {
+        for (Move move : moves) {
             if (filter.test(move)) {
                 valid.add(move);
             }
@@ -50,9 +56,9 @@ public class ChessGame {
      * @return the moves with optional comment
      */
     public List<Move> getMovesWithComment() {
-        List<Move> valid = this.filter(a -> !a.getBlackPly()
+        List<Move> valid = this.filter(a -> a.getBlackPly()
                 .getComment().isPresent()
-                || !a.getWhitePly().getComment().isPresent());
+                || a.getWhitePly().getComment().isPresent());
         return valid;
     }
 
@@ -63,8 +69,8 @@ public class ChessGame {
     public List<Move> getMovesWithoutComment() {
         List<Move> valid = this.filter(new Predicate<Move>() {
             public boolean test(Move move) {
-                return move.getBlackPly().getComment().isPresent()
-                        || move.getWhitePly().getComment().isPresent();
+                return !(move.getBlackPly().getComment().isPresent()
+                        || move.getWhitePly().getComment().isPresent());
             }
         });
         return valid;

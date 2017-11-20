@@ -4,7 +4,7 @@ import java.util.Optional;
  * Represents one player's move (either black or white).
  *
  * @author schen475
- * @version 1.0
+ * @version 1.1
  */
 public class Ply {
     private Piece piece;
@@ -52,7 +52,7 @@ public class Ply {
     /**
      * @return this piece's optional comment
      */
-    public String getComment() {
+    public Optional<String> getComment() {
         return this.comment;
     }
 }

@@ -2,7 +2,7 @@
  * Represents a king.
  *
  * @author schen475
- * @version 1.1
+ * @version 1.2
  */
 public class King extends Piece {
 
