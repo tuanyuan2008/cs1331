@@ -2,7 +2,7 @@
  * Represents a chessboard tile characterized by file and rank.
  *
  * @author schen475
- * @version 2
+ * @version 3.0
  */
 public class Square {
 
@@ -18,8 +18,16 @@ public class Square {
  *
  */
     public Square(char file, char rank) {
-        this.file = file;
-        this.rank = rank;
+        if ('a' <= file && file <= 'h') {
+            this.file = file;
+        } else {
+            throw new InvalidSquareException("" + file + rank);
+        }
+        if ('1' <= rank && rank <= '8') {
+            this.rank = rank;
+        } else {
+            throw new InvalidSquareException("" + file + rank);
+        }
         this.name = "" + file + rank;
     }
 
@@ -30,9 +38,21 @@ public class Square {
  *
  */
     public Square(String name) {
-        this.file = name.charAt(0);
-        this.rank = name.charAt(1);
-        this.name = name;
+        if (name.length() == 2) {
+            if ('a' <= name.charAt(0) && name.charAt(0) <= 'h') {
+                this.file = name.charAt(0);
+            } else {
+                throw new InvalidSquareException(name);
+            }
+            if ('1' <= name.charAt(1) && name.charAt(1) <= '8') {
+                this.rank = name.charAt(1);
+            } else {
+                throw new InvalidSquareException(name);
+            }
+            this.name = name;
+        } else {
+            throw new InvalidSquareException(name);
+        }
     }
 
 /**
@@ -61,7 +81,8 @@ public class Square {
  * @return true if this object is the same as the obj
  * argument; false otherwise
  *
- * @param obj the reference object with which to compare
+ * @param obj the reference object with which to be
+ * compared with
  *
  */
     @Override
@@ -80,7 +101,7 @@ public class Square {
         }
         return false;
     }
-	
+
     @Override
     public int hashCode() {
         return this.toString().hashCode();
