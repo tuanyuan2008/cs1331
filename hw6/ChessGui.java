@@ -23,7 +23,7 @@ import javafx.stage.Stage;
  * Represents a chess GUI.
  *
  * @author schen475
- * @version 1.0
+ * @version 1.1
  */
 public class ChessGui extends Application {
 
