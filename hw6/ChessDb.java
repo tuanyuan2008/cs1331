@@ -1,20 +1,41 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a chess database.
+ *
+ * @author schen475
+ * @version 1.0
+ */
+
 public class ChessDb {
 
     private List<ChessGame> games;
 
+    /**
+     * Simulates a chess game in PGN format.
+     *
+     */
     public ChessDb() {
         games = new ArrayList<>();
         games.add(morphyIsouard());
         games.add(talFischer());
     }
 
+    /**
+     * Lists the games in the database.
+     *
+     * @return a list of chess games.
+     *
+     */
     public List<ChessGame> getGames() {
         return games;
     }
 
+    /**
+     * Simulates the Morphy-Isouard chess match.
+     *
+     */
     private ChessGame morphyIsouard() {
         ChessGame game = new ChessGame(
             "A Night at the Opera",
@@ -44,6 +65,10 @@ public class ChessDb {
         return game;
     }
 
+    /**
+     * Simulates the Tal-Fischer chess match.
+     *
+     */
     private ChessGame talFischer() {
         ChessGame game = new ChessGame(
             "Bled-Zagreb-Belgrade Candidates",
