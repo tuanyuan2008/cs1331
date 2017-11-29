@@ -39,6 +39,7 @@ public class ChessGame {
         this.black.set(black);
         this.result.set(result);
         moves = new ArrayList<>();
+        this.opening.set("aaaaa");
     }
 
     /**
@@ -48,6 +49,27 @@ public class ChessGame {
      */
     public void addMove(String move) {
         moves.add(move);
+        if (moves.size() >= 3 && getMove(1).equals("e4 e5")
+                && getMove(2).equals("Nf3 Nc6")
+                && getMove(3).equals("Bc4 Bc5")) {
+            this.opening.set("Giuoco Piano");
+        } else if (moves.size() >= 3 && getMove(1).equals("e4 e5")
+                && getMove(2).equals("Nf3 Nc6")
+                && getMove(3).split("\\s+")[0].equals("Bb5")) {
+            this.opening.set("Ruy Lopez");
+        } else if (moves.size() >= 1 && getMove(1).equals("e4 c5")) {
+            this.opening.set("Sicilian Defense");
+        } else if (moves.size() >= 2 && getMove(1).equals("d4 d5")
+                && getMove(2).split("\\s+")[0].equals("c4")) {
+            this.opening.set("Queen's Gambit");
+        } else if (moves.size() >= 1 && getMove(1).equals("d4 Nf6")) {
+            this.opening.set("Indian Defence");
+        } else if (moves.size() >= 2 && getMove(1).equals("e4 e5")
+                && getMove(2).equals("Nf3 d6")) {
+            this.opening.set("Philidor Defence");
+        } else {
+            this.opening.set("--");
+        }
     }
 
     /**
@@ -164,31 +186,10 @@ public class ChessGame {
     /**
      * Lists the opening of the chess game.
      *
-     * @param moves the lit of moves being analyzed
-     *
      * @return the opening of the match.
      *
      */
-    public String getOpening(List<String> mMoves) {
-        if (mMoves.size() >= 3 && mMoves.get(0).equals("e4 e5")
-                && mMoves.get(1).equals("Nf3 Nc6")
-                && mMoves.get(2).equals("Bc4 Bc5")) {
-            return "Giuoco Piano";
-        } else if (mMoves.size() >= 3 && mMoves.get(0).equals("e4 e5")
-                && mMoves.get(1).equals("Nf3 Nc6")
-                && mMoves.get(2).split("\\s+")[0].equals("Bb5")) {
-            return "Ruy Lopez";
-        } else if (mMoves.size() >= 1 && mMoves.get(0).equals("e4 c5")) {
-            return "Sicilian Defense";
-        } else if (mMoves.size() >= 2 && mMoves.get(0).equals("d4 d5")
-                && mMoves.get(1).split("\\s+")[0].equals("c4")) {
-            return "Queen's Gambit";
-        } else if (mMoves.size() >= 1 && mMoves.get(0).equals("d4 Nf6")) {
-            return "Indian Defence";
-        } else if (mMoves.size() >= 2 && mMoves.get(0).equals("e4 e5")
-                && mMoves.get(1).equals("Nf3 d6")) {
-            return "Philidor Defence";
-        }
-        return "--";
+    public String getOpening() {
+        return opening.get();
     }
 }

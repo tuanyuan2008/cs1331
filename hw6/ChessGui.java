@@ -68,7 +68,7 @@ public class ChessGui extends Application {
 
         VBox vbox = new VBox();
         vbox.getChildren().addAll(table, buttonBox);
-        final Scene scene = new Scene(vbox, 1225, 250);
+        final Scene scene = new Scene(vbox, 1275, 250);
         scene.setFill(null);
         stage.setScene(scene);
         stage.setTitle("Sarah Chen | Chess GUI");
@@ -152,13 +152,14 @@ public class ChessGui extends Application {
                 + "%s%nOpening: %s%n", game.getEvent(),
                 game.getSite(), game.getDate(), game.getWhite(),
                 game.getBlack(), game.getResult(),
-                game.getOpening(game.getMoves())));
+                game.getOpening()));
         int count = game.getMoves().size();
-        for (String move : game.getMoves()) {
+        boolean cont = true;
+        for (int i = 1; i <= game.getMoves().size() && cont; i++) {
             alert.setContentText(String.format("Move # %d:%n[White] %s     "
                     + "[Black]  %s%n",
-                    game.getMoves().indexOf(move) + 1,
-                    game.whiteMove(move), game.blackMove(move)));
+                    i, game.whiteMove(game.getMove(i)),
+                    game.blackMove(game.getMove(i))));
             ButtonType buttonTypeOk = new ButtonType(--count + " Moves Left",
                     ButtonData.NEXT_FORWARD);
             ButtonType buttonTypeCancel = new ButtonType("Cancel",
@@ -168,7 +169,7 @@ public class ChessGui extends Application {
             if (result.get() == buttonTypeOk) {
                 continue;
             } else {
-                break;
+                cont = false;
             }
         }
     }
@@ -188,11 +189,11 @@ public class ChessGui extends Application {
                 + "%s%nOpening: %s%n", game.getEvent(),
                 game.getSite(), game.getDate(), game.getWhite(),
                 game.getBlack(), game.getResult(),
-                game.getOpening(game.getMoves())));
+                game.getOpening()));
         String answer = "";
-        for (int i = 1; i <= game.getMoves().size(); i++) {
+        for (String move : game.getMoves()) {
             answer += String.format("%d. %s  ",
-            i, game.getMove(i));
+            game.getMoves().indexOf(move) + 1, move);
         }
         alert.setContentText(answer);
         ButtonType buttonTypeCancel = new ButtonType("Cancel",
