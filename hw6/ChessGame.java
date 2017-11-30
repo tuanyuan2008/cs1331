@@ -7,7 +7,7 @@ import javafx.beans.property.StringProperty;
  * Represents a chess game.
  *
  * @author schen475
- * @version 1.0
+ * @version 1.2
  */
 public class ChessGame {
 
@@ -39,7 +39,7 @@ public class ChessGame {
         this.black.set(black);
         this.result.set(result);
         moves = new ArrayList<>();
-        this.opening.set("aaaaa");
+        this.opening.set("NOT GIVEN");
     }
 
     /**
