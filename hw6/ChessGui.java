@@ -90,8 +90,10 @@ public class ChessGui extends Application {
                             tagValue("Date", fileName), tagValue("White",
                             fileName), tagValue("Black", fileName),
                             tagValue("Result", fileName));
-                    int startingPos = fileName.indexOf("1. ", fileName.lastIndexOf("]"));
-                    String[] moves = fileName.substring(startingPos).split("\\s+");
+                    int startingPos = fileName.indexOf("1. ",
+                            fileName.lastIndexOf("]"));
+                    String[] moves = fileName.substring(startingPos).
+                            split("\\s+");
                     match.setMoves(moves);
                     games.add(match);
                 }
