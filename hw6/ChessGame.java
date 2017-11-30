@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.property.SimpleStringProperty;
@@ -7,7 +8,7 @@ import javafx.beans.property.StringProperty;
  * Represents a chess game.
  *
  * @author schen475
- * @version 1.0
+ * @version 1.2
  */
 public class ChessGame {
 
@@ -39,7 +40,7 @@ public class ChessGame {
         this.black.set(black);
         this.result.set(result);
         moves = new ArrayList<>();
-        this.opening.set("aaaaa");
+        this.opening.set("NOT GIVEN");
     }
 
     /**
@@ -191,5 +192,26 @@ public class ChessGame {
      */
     public String getOpening() {
         return opening.get();
+    }
+
+    /**
+     * Sets the moves of the chess match.
+     *
+     * @param moves the moves of the match
+     *
+     */
+    public void setMoves(String[] moves) {
+        String wholeMove = "";
+        int count = 0;
+        for (String move : moves) {
+            if (!Character.isDigit(move.charAt(0))) {
+                wholeMove += String.format("%s ", move);
+                if (++count % 2 == 0 || Arrays.asList(moves).
+                        indexOf(move) == moves.length - 1) {
+                    this.addMove(wholeMove);
+                    wholeMove = "";
+                }
+            }
+        }
     }
 }

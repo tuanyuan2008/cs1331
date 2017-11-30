@@ -1,21 +1,31 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.Scene;
+import javafx.stage.FileChooser;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -23,7 +33,7 @@ import javafx.stage.Stage;
  * Represents a chess GUI.
  *
  * @author schen475
- * @version 1.1
+ * @version 1.3
  */
 public class ChessGui extends Application {
 
@@ -62,12 +72,42 @@ public class ChessGui extends Application {
         Button dismissButton = new Button("Dismiss");
         dismissButton.setOnAction(e -> Platform.exit());
 
+        Button c = new Button("Load Folder");
+        c.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                FileChooser fileChooser = new FileChooser();
+
+                FileChooser.ExtensionFilter extFilter =
+                        new FileChooser.ExtensionFilter("PGN File (*.pgn)",
+                        "*.pgn");
+                fileChooser.getExtensionFilters().add(extFilter);
+
+                File file = fileChooser.showOpenDialog(stage);
+                if (file != null) {
+                    String fileName = fileContent(file.getPath());
+                    ChessGame match = new ChessGame(tagValue("Event",
+                            fileName), tagValue("Site", fileName),
+                            tagValue("Date", fileName), tagValue("White",
+                            fileName), tagValue("Black", fileName),
+                            tagValue("Result", fileName));
+                    int startingPos = fileName.indexOf("1. ",
+                            fileName.lastIndexOf("]"));
+                    String[] moves = fileName.substring(startingPos).
+                            split("\\s+");
+                    match.setMoves(moves);
+                    games.add(match);
+                }
+            }
+        });
+
         HBox buttonBox = new HBox();
-        buttonBox.getChildren().addAll(viewButton,
+        buttonBox.getChildren().addAll(c, viewButton,
                 viewAllButton, dismissButton);
 
+        TextField search = new TextField();
+
         VBox vbox = new VBox();
-        vbox.getChildren().addAll(table, buttonBox);
+        vbox.getChildren().addAll(search, table, buttonBox);
         final Scene scene = new Scene(vbox, 1275, 250);
         scene.setFill(null);
         stage.setScene(scene);
@@ -176,10 +216,8 @@ public class ChessGui extends Application {
     private void viewAllMoves(ChessGame game) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
-        // Get the Stage.
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
 
-        // Add a custom icon.
         stage.getIcons().add(new Image(this.getClass().
                 getResource("RookFavicon.png").toString()));
 
@@ -203,5 +241,49 @@ public class ChessGui extends Application {
         if (result.get() == buttonTypeCancel) {
             alert.close();
         }
+    }
+
+    /**
+     * Find the tagName tag pair in a PGN game and return its value.
+     *
+     * @see http://www.saremba.de/chessgml/standards/pgn/pgn-complete.htm
+     *
+     * @param tagName the name of the tag whose value you want
+     * @param game a `String` containing the PGN text of a chess game
+     * @return the value in the named tag pair
+     */
+    public static String tagValue(String tagName, String game) {
+        int valueBeg = game.indexOf(tagName) + tagName.length() + 1;
+        if (valueBeg > tagName.length()) {
+            String value = "";
+            for (int i = valueBeg + 1; game.charAt(i) != '"'; i++) {
+                value += game.charAt(i);
+            }
+            return value;
+        } else {
+            return "NOT GIVEN";
+        }
+    }
+
+    /**
+     * Reads the file named by path and returns its content as a String.
+     *
+     * @param path the relative or abolute path of the4 file to read
+     * @return a String containing the content of the file
+     */
+    public static String fileContent(String path) {
+        Path file = Paths.get(path);
+        StringBuilder sb = new StringBuilder();
+        try (BufferedReader reader = Files.newBufferedReader(file)) {
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                // Add the \n that's removed by readline()
+                sb.append(line + "\n");
+            }
+        } catch (IOException e) {
+            System.err.format("IOException: %s%n", e);
+            System.exit(1);
+        }
+        return sb.toString();
     }
 }
