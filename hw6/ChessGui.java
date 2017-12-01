@@ -132,7 +132,7 @@ public class ChessGui extends Application {
 
         VBox vbox = new VBox();
         vbox.getChildren().addAll(searchBox, mesa, buttonBox);
-        final Scene scene = new Scene(vbox, 1275, 250);
+        final Scene scene = new Scene(vbox, 1275, 465);
         scene.setFill(null);
         stage.setScene(scene);
         stage.setTitle("Sarah Chen | Chess GUI");

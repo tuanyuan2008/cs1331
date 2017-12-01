@@ -77,6 +77,16 @@ public class ChessGame {
         } else if (moves.size() >= 2 && getMove(1).equals("f3 e6")
                 && getMove(2).equals("g4 Qh4#")) {
             this.opening.set("Fool's Mate");
+        } else if (moves.size() >= 1 && getMove(1).equals("e4 e6")) {
+            this.opening.set("French Defence");
+        } else if (moves.size() >= 2 && getMove(1).equals("e4 e5")
+                && getMove(2).equals("Nf3 Nf6")) {
+            this.opening.set("Petrov's Defense");
+        } else if (moves.size() >= 4 && getMove(1).equals("e4 e5")
+                && getMove(2).equals("Bc4 Nc6")
+                && getMove(3).equals("Qh5 Nf6??")
+                && getMove(4).split("\\s+")[0].equals("Qxf7#")) {
+            this.opening.set("Scholar's Mate");
         } else {
             this.opening.set("NOT GIVEN");
         }
