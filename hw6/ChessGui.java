@@ -8,6 +8,8 @@ import java.util.Optional;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,6 +24,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.Scene;
@@ -36,7 +39,10 @@ import javafx.stage.Stage;
  * @version 1.3
  */
 public class ChessGui extends Application {
-
+    private ChessDb chessDb = new ChessDb();
+    private ObservableList<ChessGame> games =
+        FXCollections.observableArrayList(chessDb.getGames());
+    private TableView<ChessGame> mesa = createTable(games);
 
     /**
      * Sets the stage; analogous to class with
@@ -48,26 +54,22 @@ public class ChessGui extends Application {
     public void start(Stage stage) {
         stage.getIcons().add(new Image(this.getClass().
                 getResource("RookFavicon.png").toString()));
-        ChessDb chessDb = new ChessDb();
-        ObservableList<ChessGame> games =
-            FXCollections.observableArrayList(chessDb.getGames());
-        TableView<ChessGame> table = createTable(games);
 
         Button viewButton = new Button("Play-by-Play");
         viewButton.setOnAction(e -> {
-                ChessGame game = table.getSelectionModel().getSelectedItem();
+                ChessGame game = mesa.getSelectionModel().getSelectedItem();
                 viewDialog(game);
             });
         viewButton.disableProperty().bind(Bindings
-                .isNull(table.getSelectionModel().selectedItemProperty()));
+                .isNull(mesa.getSelectionModel().selectedItemProperty()));
 
         Button viewAllButton = new Button("All Moves");
         viewAllButton.setOnAction(e -> {
-                ChessGame game = table.getSelectionModel().getSelectedItem();
+                ChessGame game = mesa.getSelectionModel().getSelectedItem();
                 viewAllMoves(game);
             });
         viewAllButton.disableProperty().bind(Bindings
-                .isNull(table.getSelectionModel().selectedItemProperty()));
+                .isNull(mesa.getSelectionModel().selectedItemProperty()));
 
         Button dismissButton = new Button("Dismiss");
         dismissButton.setOnAction(e -> Platform.exit());
@@ -95,19 +97,41 @@ public class ChessGui extends Application {
                     String[] moves = fileName.substring(startingPos).
                             split("\\s+");
                     match.setMoves(moves);
-                    games.add(match);
+                    getGames().add(match);
                 }
             }
         });
 
         HBox buttonBox = new HBox();
+
         buttonBox.getChildren().addAll(c, viewButton,
                 viewAllButton, dismissButton);
 
+        Image imageSearch = new Image(getClass().
+                getResourceAsStream("SearchFav.png"));
+        Button btn = new Button();
+        btn.setGraphic(new ImageView(imageSearch));
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent event) {
+                event.consume();
+            }
+        });
+
         TextField search = new TextField();
+        search.setPrefColumnCount(21);
+        search.setPromptText("Search");
+        search.textProperty().addListener(
+            new ChangeListener() {
+                public void changed(ObservableValue observable,
+                    Object oldVar, Object newVar) {
+                    searchKey((String) oldVar, (String) newVar);
+                }
+            });
+
+        HBox searchBox = new HBox(btn, search);
 
         VBox vbox = new VBox();
-        vbox.getChildren().addAll(search, table, buttonBox);
+        vbox.getChildren().addAll(searchBox, mesa, buttonBox);
         final Scene scene = new Scene(vbox, 1275, 250);
         scene.setFill(null);
         stage.setScene(scene);
@@ -120,16 +144,24 @@ public class ChessGui extends Application {
     }
 
     /**
+     * Lists the games present in the mesa.
+     * @return the games in the database
+     *
+     */
+    public ObservableList<ChessGame> getGames() {
+        return games;
+    }
+    /**
      * Creates a table with the games in
      * the database.
      *
      * @param games the games in the database
      *
      */
-    private TableView<ChessGame> createTable(ObservableList<ChessGame> games) {
+    private TableView<ChessGame> createTable(ObservableList<ChessGame> events) {
 
         TableView<ChessGame> table = new TableView<ChessGame>();
-        table.setItems(games);
+        table.setItems(events);
 
         TableColumn<ChessGame, String> eventCol =
             new TableColumn<ChessGame, String>("Event");
@@ -285,5 +317,61 @@ public class ChessGui extends Application {
             System.exit(1);
         }
         return sb.toString();
+    }
+
+    /**
+     * Reads the file named by path and returns its content as a String.
+     *
+     * @param oldVar the old value
+     * @param newVar the new value
+     *
+     */
+    public void searchKey(String oldVar, String newVar) {
+        if (oldVar != null && (newVar.length() < oldVar.length())) {
+            mesa.setItems(games);
+        }
+
+        newVar = newVar.toUpperCase();
+
+        ObservableList<ChessGame> subEntries =
+                FXCollections.observableArrayList();
+        for (ChessGame game: mesa.getItems()) {
+            String text0 = (String) game.getEvent();
+            if (text0.toUpperCase().contains(newVar)
+                    && !subEntries.contains(game)) {
+                subEntries.add(game);
+            }
+            String text1 = (String) game.getOpening();
+            if (text1.toUpperCase().contains(newVar)
+                    && !subEntries.contains(game)) {
+                subEntries.add(game);
+            }
+            String text2 = (String) game.getSite();
+            if (text2.toUpperCase().contains(newVar)
+                    && !subEntries.contains(game)) {
+                subEntries.add(game);
+            }
+            String text3 = (String) game.getDate();
+            if (text3.toUpperCase().contains(newVar)
+                    && !subEntries.contains(game)) {
+                subEntries.add(game);
+            }
+            String text4 = (String) game.getWhite();
+            if (text4.toUpperCase().contains(newVar)
+                    && !subEntries.contains(game)) {
+                subEntries.add(game);
+            }
+            String text5 = (String) game.getBlack();
+            if (text5.toUpperCase().contains(newVar)
+                    && !subEntries.contains(game)) {
+                subEntries.add(game);
+            }
+            String text6 = (String) game.getResult();
+            if (text6.toUpperCase().contains(newVar)
+                    && !subEntries.contains(game)) {
+                subEntries.add(game);
+            }
+        }
+        mesa.setItems(subEntries);
     }
 }
