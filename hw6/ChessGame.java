@@ -68,8 +68,17 @@ public class ChessGame {
         } else if (moves.size() >= 2 && getMove(1).equals("e4 e5")
                 && getMove(2).equals("Nf3 d6")) {
             this.opening.set("Philidor Defence");
+        } else if (moves.size() >= 5 && getMove(1).equals("e4 e5")
+                && getMove(2).equals("Nf3 Nc6")
+                && getMove(3).equals("Bc4 Nf6")
+                && getMove(4).equals("Ng5 d5")
+                && getMove(5).equals("exd5 Nxd5")) {
+            this.opening.set("Fegatello Attack");
+        } else if (moves.size() >= 2 && getMove(1).equals("f3 e6")
+                && getMove(2).equals("g4 Qh4#")) {
+            this.opening.set("Fool's Mate");
         } else {
-            this.opening.set("--");
+            this.opening.set("NOT GIVEN");
         }
     }
 
@@ -208,7 +217,8 @@ public class ChessGame {
                 wholeMove += String.format("%s ", move);
                 if (++count % 2 == 0 || Arrays.asList(moves).
                         indexOf(move) == moves.length - 1) {
-                    this.addMove(wholeMove);
+                    this.addMove(wholeMove.substring(0,
+                            wholeMove.length() - 1));
                     wholeMove = "";
                 }
             }
