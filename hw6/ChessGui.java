@@ -151,6 +151,7 @@ public class ChessGui extends Application {
     public ObservableList<ChessGame> getGames() {
         return games;
     }
+    
     /**
      * Creates a table with the games in
      * the database.
@@ -211,10 +212,8 @@ public class ChessGui extends Application {
     private void viewDialog(ChessGame game) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
-        // Get the Stage.
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
 
-        // Add a custom icon.
         stage.getIcons().add(new Image(this.getClass().
                 getResource("RookFavicon.png").toString()));
 
